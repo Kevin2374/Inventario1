@@ -1,10 +1,10 @@
 import getConnection from "./../db/database.js";
 
-const getCategorias = async (req, res) => {
+const getProductos = async (req, res) => {
   try {
     const connection = await getConnection();
     const result = await connection.query(
-      "SELECT CategoriaID, CategoriaNombre, Imagen FROM categorias"
+      "SELECT ProductoID, ProductoNombre, Imagen, Descripcion, Precio FROM productos"
     );
     res.json(result);
   } catch (error) {
@@ -12,14 +12,14 @@ const getCategorias = async (req, res) => {
   }
 };
 
-const postCategorias = async (req, res) => {
+const postProductos = async (req, res) => {
   try {
-    const { CategoriaNombre, Imagen } = req.body;
-    const category = { CategoriaNombre, Imagen };
+    const { ProductoNombre, Imagen, Descripcion, Precio, CategoriaID, ProveedorID } = req.body;
+    const producto = { ProductoNombre, Imagen, Descripcion, Precio, CategoriaID, ProveedorID };
     const connection = await getConnection();
     const result = await connection.query(
-      "INSERT INTO categorias SET ?",
-      category
+      "INSERT INTO productos SET ?",
+      producto
     );
     res.json(result);
   } catch (error) {
@@ -27,13 +27,13 @@ const postCategorias = async (req, res) => {
   }
 };
 
-const getCategory = async (req, res) => {
+const getProductoById = async (req, res) => {
   try {
     console.log(req.params);
     const { id } = req.params;
     const connection = await getConnection();
     const result = await connection.query(
-      "SELECT CategoriaID, CategoriaNombre, Imagen FROM categorias WHERE CategoriaID = ?",
+      "SELECT ProductoID, ProductoNombre, Imagen, Descripcion, Precio FROM productos WHERE ProductoID = ?",
       id
     );
     res.json(result);
@@ -42,13 +42,13 @@ const getCategory = async (req, res) => {
   }
 };
 
-const deleteCategory = async (req, res) => {
+const deleteProducto = async (req, res) => {
   try {
-    console.log("ID de categoría a borrar", req.params);
+    console.log("ID de producto a borrar", req.params);
     const { id } = req.params;
     const connection = await getConnection();
     const result = await connection.query(
-      "DELETE FROM categorias WHERE CategoriaID = ?",
+      "DELETE FROM productos WHERE ProductoID = ?",
       id
     );
     res.json(result);
@@ -57,15 +57,15 @@ const deleteCategory = async (req, res) => {
   }
 };
 
-const updateCategorias = async (req, res) => {
+const updateProducto = async (req, res) => {
   try {
     const {id} = req.params
-    const { CategoriaNombre, Imagen } = req.body;
-    const category = { CategoriaNombre, Imagen };
+    const { ProductoNombre, Imagen, Descripcion, Precio, CategoriaID, ProveedorID } = req.body;
+    const producto = { ProductoNombre, Imagen, Descripcion, Precio, CategoriaID, ProveedorID };
     const connection = await getConnection();
     const result = await connection.query(
-      "UPDATE categorias SET ? WHERE CategoriaID = ?",
-      [category, id]
+      "UPDATE productos SET ? WHERE ProductoID = ?",
+      [producto, id]
     );
     res.json(result);
   } catch (error) {
@@ -74,9 +74,9 @@ const updateCategorias = async (req, res) => {
 };
 
 export const methodHTTP = {
-  getCategorias,
-  postCategorias,
-  getCategory,
-  deleteCategory,
-  updateCategorias,
+  getProductos,
+  postProductos,
+  getProductoById,
+  deleteProducto,
+  updateProducto,
 };

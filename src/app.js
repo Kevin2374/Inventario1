@@ -3,6 +3,7 @@
 import express from "express";
 import cors from "cors";
 import categoriaRoutes from "./routes/categorias.routes.js";
+import productoRoutes from "./routes/productos.routes.js";
 
 /* Asignamos a app toda funcionalidad para mi server web */
 
@@ -20,7 +21,8 @@ app.use(cors());
 
 /* Routes */
 
-app.use("/api/categorias", categoriaRoutes);
+app.use("/petmarket/categorias", categoriaRoutes);
+app.use("/petmarket/productos", productoRoutes);
 
 /* Hacemos disponible a mi server app para toda la aplicación */
 
